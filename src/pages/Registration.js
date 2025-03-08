@@ -58,6 +58,10 @@ function Register() {
     });
     navigate("/login");
   }
+
+  function goToLogin() {
+    navigate("/login");
+  }
   return (
     <>
       <h2>Register</h2>
@@ -118,6 +122,12 @@ function Register() {
         <button onClick={handleRegister} type="submit">
           Register
         </button>
+        <p>
+          Already have an account?{" "}
+          <span style={{ cursor: "pointer" }} onClick={goToLogin}>
+            Login here!
+          </span>
+        </p>
       </form>
     </>
   );

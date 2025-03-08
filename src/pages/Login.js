@@ -1,25 +1,41 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { addLoginUserObj } from "../redux/authSlice";
 
 function Login() {
   // importing users array from redux store and slice
   const users = useSelector((state) => state.auth.users);
-  const navigate = useNavigate();
+  const loggedUsers = useSelector((state) => state.auth.loggedInUsers);
 
-  const [loginObj, setLoginObj] = useState({ name: "", password: "" });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [loginObj, setLoginObj] = useState({
+    name: "",
+    password: "",
+  });
 
   function handleLogin() {
-    // Checking if the user exist
-    users.find((user) => {
-      console.log("Login! User checking...", user);
-      if (user.name === loginObj.name && user.password === loginObj.password) {
-        alert("Credential are matching!");
-        navigate("/home");
-      } else {
-        alert("Wrong credentials!");
-      }
-    });
+    const user = users.find(
+      (user) =>
+        user.name === loginObj.name && user.password === loginObj.password
+    );
+    if (user) {
+      // Users
+      console.log("Registered users:", users);
+      console.log("Logged in users:", loggedUsers);
+
+      alert("Credential are matching!");
+      dispatch(addLoginUserObj({ ...loginObj, isAuthenticated: true }));
+      navigate("/home");
+    } else {
+      alert("Wrong credentials!");
+    }
+  }
+
+  function goToRegister() {
+    navigate("/");
   }
 
   return (
@@ -47,6 +63,12 @@ function Login() {
         <div>
           <button onClick={handleLogin}>LOGIN</button>
         </div>
+        <p>
+          Dont have an account?{" "}
+          <span style={{ cursor: "pointer" }} onClick={goToRegister}>
+            Register here!
+          </span>
+        </p>
       </div>
     </>
   );
