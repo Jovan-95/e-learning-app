@@ -27,7 +27,9 @@ function Login() {
       console.log("Logged in users:", loggedUsers);
 
       alert("Credential are matching!");
-      dispatch(addLoginUserObj({ ...loginObj, isAuthenticated: true }));
+      dispatch(
+        addLoginUserObj({ ...loginObj, isAuthenticated: true, id: user.id })
+      );
       navigate("/home");
     } else {
       alert("Wrong credentials!");
@@ -64,7 +66,7 @@ function Login() {
           <button onClick={handleLogin}>LOGIN</button>
         </div>
         <p>
-          Dont have an account?{" "}
+          Dont have an account?
           <span style={{ cursor: "pointer" }} onClick={goToRegister}>
             Register here!
           </span>

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router";
 //https://jsonplaceholder.typicode.com/posts
 
 // HTTP get request in REDUX

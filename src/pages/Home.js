@@ -31,12 +31,6 @@ function Home() {
     currentPage * itemsPerPage
   );
 
-  // Remove course
-  function handleRemoveCourse(course) {
-    // console.log(course);
-    dispatch(removeCourse(course.id));
-  }
-
   return (
     <>
       <h2>HOME</h2>
@@ -56,19 +50,15 @@ function Home() {
               <Link to={`/home/${course.id}`}>
                 <span>{course.title}</span>
               </Link>
-
-              <button onClick={() => handleRemoveCourse(course)}>
-                Remove course!
-              </button>
             </li>
           ))}
-          <Outlet />
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            paginatedCourses={paginatedCourses}
+            paginatedCourses={courses}
             itemsPerPage={itemsPerPage}
           />
+          <Outlet />
         </div>
       </div>
     </>
