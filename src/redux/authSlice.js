@@ -17,6 +17,7 @@ const authSlice = createSlice({
         password: action.payload.password,
         confirmPassword: action.payload.confirmPassword,
         enrolledCourses: [],
+        completedCourses: [],
       });
     },
 
@@ -53,6 +54,29 @@ const authSlice = createSlice({
         );
       });
     },
+
+    completeCourse: (state, action) => {
+      if (state.loggedInUsers.length === 0) return;
+      const loggedInUser = state.loggedInUsers[0];
+      const user = state.users.find((user) => user.id === loggedInUser.id);
+
+      const completedCourse = user.completedCourses.find(
+        (course) => course.id === action.payload.id
+      );
+
+      if (completedCourse) return alert("You already completed this course!");
+      user.completedCourses.push(action.payload);
+    },
+
+    // User edit, we use ID (action.payload.id) to find user and change info
+    updateUser: (state, action) => {
+      const user = state.users.find((user) => user.id === action.payload.id);
+      if (user) {
+        user.name = action.payload.name || user.name;
+        user.email = action.payload.email || user.email;
+        user.password = action.payload.password || user.password;
+      }
+    },
   },
 });
 
@@ -61,5 +85,7 @@ export const {
   addLoginUserObj,
   enrollCourse,
   removeEnrolledCourseFromUser,
+  completeCourse,
+  updateUser,
 } = authSlice.actions;
 export default authSlice.reducer;

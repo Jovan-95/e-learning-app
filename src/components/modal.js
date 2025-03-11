@@ -3,7 +3,7 @@ import "../CSS/modal.css";
 function modal({ children }) {
   return (
     <>
-      <button id="myBtn">Open Modal</button>
+      {/* <button id="myBtn">Open Modal</button> */}
 
       <div id="myModal" className="modal">
         {/* <!-- Modal content --> */}
