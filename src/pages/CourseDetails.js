@@ -4,6 +4,7 @@ import { removeCourse } from "../redux/coursesSlice";
 import { enrollCourse } from "../redux/authSlice";
 import Modal from "../components/modal";
 import { useState } from "react";
+import "../CSS/course-details.css";
 
 function CourseDetails() {
   const { id } = useParams();
@@ -42,18 +43,17 @@ function CourseDetails() {
 
   return (
     <>
-      <h2>Course Details - single page</h2>
+      <h2 style={{ textAlign: "left" }}>Course Details - single page</h2>
       <div>
-        <h3>Details</h3>
-        <p>
+        <div>
           <strong>Title:</strong> {course.title}
-        </p>
-        <p>
+        </div>
+        <div>
           <strong>Body:</strong> {course.body}
-        </p>
-        <p>
+        </div>
+        <div>
           <strong>ID:</strong> {course.id}
-        </p>
+        </div>
         <div>
           <button onClick={removeModal}>Remove course?</button>
           <button onClick={enrollModal}>Enroll this course?</button>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addEmail, addUserName, addUserObj } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
+import "../CSS/register.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -64,8 +65,8 @@ function Register() {
   }
   return (
     <>
-      <h2>Register</h2>
       <form>
+        <h2>Register</h2>
         <div>
           <label htmlFor="name">Full Name:</label>
           <input

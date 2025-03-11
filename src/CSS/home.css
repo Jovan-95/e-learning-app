@@ -1,0 +1,31 @@
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #007bff;
+  padding: 15px 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.nav-wrapper li {
+  margin: 0 15px;
+}
+
+.nav-wrapper a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-wrapper a:hover {
+  color: #ffdd57;
+}
+
+.search-input {
+  width: 100%;
+}

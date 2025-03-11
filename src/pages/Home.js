@@ -4,6 +4,7 @@ import { fetchCourses, removeCourse } from "../redux/coursesSlice";
 import { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link, Outlet } from "react-router-dom";
+import "../CSS/home.css";
 
 function Home() {
   const dispatch = useDispatch();
@@ -33,13 +34,15 @@ function Home() {
 
   return (
     <>
-      <h2>HOME</h2>
-      <div>
+      <div style={{ width: "100%" }}>
+        <h2>HOME</h2>
+
         <Navigation />
         <div>
           <h3>Courses</h3>
           <label>Search by title:</label>
           <input
+            className="search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
             type="text"

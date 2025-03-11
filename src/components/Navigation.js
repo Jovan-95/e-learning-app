@@ -4,7 +4,7 @@ function Navigation() {
   return (
     <div>
       <nav>
-        <ul>
+        <ul className="nav-wrapper">
           <li>
             <NavLink to="/home">Home</NavLink>
           </li>

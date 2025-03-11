@@ -1,0 +1,21 @@
+#root {
+  /* min-width: 600px; */
+  width: 1260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+}

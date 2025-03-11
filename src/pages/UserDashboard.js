@@ -7,6 +7,7 @@ import {
   updateUser,
 } from "../redux/authSlice";
 import { useState } from "react";
+import "../CSS/user-dashboard.css";
 
 function UserDashboard() {
   const users = useSelector((state) => state.auth.users);
@@ -46,36 +47,40 @@ function UserDashboard() {
   }
   return (
     <>
-      <h2>UserDashboard</h2>
-      <Navigation />
-      <div>
+      <div style={{ width: "100%" }}>
+        <h2>UserDashboard</h2>
+        <Navigation />
+
         {users.map((user) => (
           <div key={user.id}>
-            <h2>Name: {user.name}</h2>
-            <h2>Email: {user.email}</h2>
-            <p>
-              Enrolled courses for this user:
+            <div className="card">
+              <div className="card-name">Name: {user.name}</div>
+              <div className="card-email">Email: {user.email}</div>
+              <button onClick={handleOpenInfoModal}>Change user info</button>
+            </div>
+
+            <div>
+              <h3>Enrolled courses for this user:</h3>
               {user.enrolledCourses.map((course) => (
                 <li key={course.id}>
                   <span>{course.title}</span>{" "}
                   <button onClick={() => handleCourseCompletion(course)}>
-                    Complete this course!
+                    Complete course!
                   </button>
                   <button onClick={() => handleRemovingCourseFromUser(course)}>
-                    Remove course from this user?
+                    Remove course?
                   </button>
                 </li>
               ))}
-            </p>
-            <p>
-              Completed courses for this user:
+            </div>
+            <div>
+              <h3>Completed courses for this user:</h3>
               {user.completedCourses.map((completedCourse) => (
                 <li key={completedCourse.id}>{completedCourse.title}</li>
               ))}
-            </p>
+            </div>
 
             <div>
-              <button onClick={handleOpenInfoModal}>Change user info</button>
               <div className={openEditInfoModal ? "d-block" : "d-none"}>
                 <Modal>
                   <div>

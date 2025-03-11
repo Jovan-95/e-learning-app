@@ -3,8 +3,10 @@ import Navigation from "../components/Navigation";
 function About() {
   return (
     <>
-      <h2>About</h2>
-      <Navigation />
+      <div style={{ width: "100%" }}>
+        <h2>About</h2>
+        <Navigation />
+      </div>
     </>
   );
 }

@@ -14,7 +14,7 @@ const About = lazy(() => import("./pages/About"));
 function App() {
   return (
     <>
-      <h1>E - Learning APP</h1>
+      {/* <h1>E - Learning APP</h1> */}
       <BrowserRouter>
         <Suspense fallback={<h2>Loading...</h2>}>
           <Routes>
