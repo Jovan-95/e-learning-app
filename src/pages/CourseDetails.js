@@ -38,7 +38,7 @@ function CourseDetails() {
   function handleCourseEnroll(course) {
     console.log("Enroll this course:", course);
     dispatch(enrollCourse(course));
-    navigate("/userDashboard");
+    navigate("/userProfile");
   }
 
   return (

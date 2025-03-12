@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { addLoginUserObj } from "../redux/authSlice";
+import "../CSS/register.css";
 
 function Login() {
   // importing users array from redux store and slice
@@ -23,8 +24,8 @@ function Login() {
     );
     if (user) {
       // Users
-      console.log("Registered users:", users);
-      console.log("Logged in users:", loggedUsers);
+      // console.log("Registered users:", users);
+      // console.log("Logged in users:", loggedUsers);
 
       alert("Credential are matching!");
       dispatch(

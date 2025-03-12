@@ -1,4 +1,5 @@
 import "../CSS/modal.css";
+import "../CSS/register.css";
 
 function modal({ children }) {
   return (

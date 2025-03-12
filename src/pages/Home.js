@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link, Outlet } from "react-router-dom";
 import "../CSS/home.css";
+import "../CSS/register.css";
 
 function Home() {
   const dispatch = useDispatch();

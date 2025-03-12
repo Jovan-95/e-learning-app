@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useLocalStorageState } from "../hooks/useLocalStorage,js";
 
+// Local storage
 const initialState = {
-  users: [],
-  loggedInUsers: [],
+  users: JSON.parse(localStorage.getItem("users")) || [],
+  loggedInUsers: JSON.parse(localStorage.getItem("loggedInUsers")) || [],
 };
 
 const authSlice = createSlice({
@@ -10,7 +12,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     addUserObj: (state, action) => {
-      state.users.push({
+      const newUser = {
         id: Date.now(),
         name: action.payload.name,
         email: action.payload.email,
@@ -18,16 +20,20 @@ const authSlice = createSlice({
         confirmPassword: action.payload.confirmPassword,
         enrolledCourses: [],
         completedCourses: [],
-      });
+      };
+
+      // We keep users in users array and in localstorage
+      state.users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(state.users)); // Save to localStorage
     },
 
     addLoginUserObj: (state, action) => {
-      state.loggedInUsers.push({
-        name: action.payload.name,
-        password: action.payload.password,
-        isAuthenticated: action.payload.isAuthenticated,
-        id: action.payload.id,
-      });
+      // Always one user is logged in
+      state.loggedInUsers = [{ ...action.payload }];
+      localStorage.setItem(
+        "loggedInUsers",
+        JSON.stringify(state.loggedInUsers)
+      );
     },
 
     // This logic is not good for real apps, we would need session token
@@ -44,6 +50,7 @@ const authSlice = createSlice({
       if (user) {
         // Add the course to the active user's enrolledCourses array
         user.enrolledCourses.push(action.payload);
+        localStorage.setItem("users", JSON.stringify(state.users)); // Save update
       }
     },
 
@@ -57,15 +64,14 @@ const authSlice = createSlice({
 
     completeCourse: (state, action) => {
       if (state.loggedInUsers.length === 0) return;
+
       const loggedInUser = state.loggedInUsers[0];
       const user = state.users.find((user) => user.id === loggedInUser.id);
 
-      const completedCourse = user.completedCourses.find(
-        (course) => course.id === action.payload.id
-      );
-
-      if (completedCourse) return alert("You already completed this course!");
-      user.completedCourses.push(action.payload);
+      if (user) {
+        user.completedCourses.push(action.payload);
+        localStorage.setItem("users", JSON.stringify(state.users)); // Save update
+      }
     },
 
     // User edit, we use ID (action.payload.id) to find user and change info
@@ -75,7 +81,18 @@ const authSlice = createSlice({
         user.name = action.payload.name || user.name;
         user.email = action.payload.email || user.email;
         user.password = action.payload.password || user.password;
+        localStorage.setItem("users", JSON.stringify(state.users)); // Save update
       }
+    },
+
+    removeUser: (state, action) => {
+      state.users = state.users.filter((user) => user.id !== action.payload.id);
+      localStorage.setItem("users", JSON.stringify(state.users)); // Update localStorage
+    },
+
+    logoutUser: (state) => {
+      state.loggedInUsers = [];
+      localStorage.removeItem("loggedInUsers");
     },
   },
 });
@@ -87,5 +104,7 @@ export const {
   removeEnrolledCourseFromUser,
   completeCourse,
   updateUser,
+  removeUser,
+  logoutUser,
 } = authSlice.actions;
 export default authSlice.reducer;

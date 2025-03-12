@@ -4,47 +4,30 @@ import Modal from "../components/modal";
 import {
   completeCourse,
   removeEnrolledCourseFromUser,
+  removeUser,
   updateUser,
 } from "../redux/authSlice";
 import { useState } from "react";
 import "../CSS/user-dashboard.css";
+import "../CSS/register.css";
 
 function UserDashboard() {
   const users = useSelector((state) => state.auth.users);
   const dispatch = useDispatch();
-  const [openEditInfoModal, setIsOpenEditInfoModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-  // Edited info
-  const [editedUser, setEditedUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  function handleRemovingCourseFromUser(course) {
-    dispatch(removeEnrolledCourseFromUser(course.id));
+  function handleOpenRemoveModal(user) {
+    setIsOpen((prev) => !prev);
+    setSelectedUser(user);
   }
 
-  // Course completion
-  function handleCourseCompletion(course) {
-    console.log(course);
-    dispatch(completeCourse(course));
+  function handleUserDelete(user) {
+    dispatch(removeUser(selectedUser));
+    handleOpenRemoveModal();
+    // console.log("Delete this user", selectedUser);
   }
 
-  function handleOpenInfoModal() {
-    setIsOpenEditInfoModal((prev) => !prev);
-  }
-
-  // Edit user info
-  function handleInfoChange(user) {
-    dispatch(updateUser({ ...editedUser, id: user.id }));
-    setEditedUser({
-      name: "",
-      email: "",
-      password: "",
-    });
-    setIsOpenEditInfoModal((prev) => !prev);
-  }
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -56,80 +39,19 @@ function UserDashboard() {
             <div className="card">
               <div className="card-name">Name: {user.name}</div>
               <div className="card-email">Email: {user.email}</div>
-              <button onClick={handleOpenInfoModal}>Change user info</button>
+              <button onClick={() => handleOpenRemoveModal(user)}>
+                Remove user!
+              </button>
             </div>
-
-            <div>
-              <h3>Enrolled courses for this user:</h3>
-              {user.enrolledCourses.map((course) => (
-                <li key={course.id}>
-                  <span>{course.title}</span>{" "}
-                  <button onClick={() => handleCourseCompletion(course)}>
-                    Complete course!
-                  </button>
-                  <button onClick={() => handleRemovingCourseFromUser(course)}>
-                    Remove course?
-                  </button>
-                </li>
-              ))}
-            </div>
-            <div>
-              <h3>Completed courses for this user:</h3>
-              {user.completedCourses.map((completedCourse) => (
-                <li key={completedCourse.id}>{completedCourse.title}</li>
-              ))}
-            </div>
-
-            <div>
-              <div className={openEditInfoModal ? "d-block" : "d-none"}>
-                <Modal>
-                  <div>
-                    <span onClick={handleOpenInfoModal} className="close">
-                      {" "}
-                      &times;
-                    </span>
-                    <div>
-                      <strong>ID:{user.id}</strong>
-                    </div>
-                    <label>Name:</label>
-                    <input
-                      value={editedUser.name}
-                      onChange={(e) =>
-                        setEditedUser({
-                          ...editedUser,
-                          name: e.target.value,
-                        })
-                      }
-                      type="text"
-                    />
-                    <label>Email:</label>
-                    <input
-                      value={editedUser.email}
-                      onChange={(e) =>
-                        setEditedUser({
-                          ...editedUser,
-                          email: e.target.value,
-                        })
-                      }
-                      type="text"
-                    />
-                    <label>Password:</label>
-                    <input
-                      value={editedUser.password}
-                      onChange={(e) =>
-                        setEditedUser({
-                          ...editedUser,
-                          password: e.target.value,
-                        })
-                      }
-                      type="text"
-                    />
-                    <button onClick={() => handleInfoChange(user)}>
-                      Change user info
-                    </button>
-                  </div>
-                </Modal>
-              </div>
+            <div className={isOpen ? "d-block" : "d-none"}>
+              <Modal>
+                <span onClick={handleOpenRemoveModal} className="close">
+                  {" "}
+                  &times;
+                </span>
+                <div>Are you sure you want to delete this user ?</div>
+                <button onClick={handleUserDelete}>YES!</button>
+              </Modal>
             </div>
           </div>
         ))}
