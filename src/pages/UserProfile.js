@@ -6,7 +6,8 @@ import {
   updateUser,
 } from "../redux/authSlice";
 import Modal from "../components/modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "../CSS/user-profile.css";
 
 function About() {
   const users = useSelector((state) => state.auth.users);
@@ -17,13 +18,25 @@ function About() {
   const user = users.find((user) => user.id === loggedInUser.id);
   const dispatch = useDispatch();
   const [openEditInfoModal, setIsOpenEditInfoModal] = useState(false);
-
   // Edited info
   const [editedUser, setEditedUser] = useState({
     name: "",
     email: "",
     password: "",
+    role: "",
   });
+
+  // Populate user edit modal with current info
+  useEffect(() => {
+    if (user) {
+      setEditedUser({
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+      });
+    }
+  }, [user]);
 
   function handleTest() {
     console.log("logged user:", loggedInUser);
@@ -48,13 +61,16 @@ function About() {
   // Edit user info
   function handleInfoChange(user) {
     dispatch(updateUser({ ...editedUser, id: user.id }));
+
     setEditedUser({
       name: "",
       email: "",
       password: "",
+      role: "",
     });
     setIsOpenEditInfoModal((prev) => !prev);
   }
+
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -65,6 +81,14 @@ function About() {
           <h2 style={{ textAlign: "left" }}>NAME:{user.name}</h2>
           <h2 style={{ textAlign: "left" }}>EMAIL:{user.email}</h2>
           <h2 style={{ textAlign: "left" }}>PASSWORD:{user.password}</h2>
+          <h2 style={{ textAlign: "left" }}>ROLE:{user.role}</h2>
+          {user.role === "admin" ? (
+            <h3 style={{ color: "red" }}>
+              Now you are ADMIN and you can access all content!
+            </h3>
+          ) : (
+            ""
+          )}
           <button onClick={handleOpenInfoModal}>Change user info</button>
         </div>
         <div>
@@ -134,6 +158,21 @@ function About() {
                     }
                     type="text"
                   />
+                  <div className="select-wrapper">
+                    <select
+                      value={editedUser.role}
+                      onChange={(e) =>
+                        setEditedUser({
+                          ...editedUser,
+                          role: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select your role</option>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
                   <button onClick={() => handleInfoChange(user)}>
                     Change user info
                   </button>
@@ -142,6 +181,7 @@ function About() {
             </div>
           </div>
         </div>
+
         <div>---------------------------------------------</div>
         <div>!!! Log current logged user and all user in console:</div>
         <button onClick={handleTest}>TEST</button>

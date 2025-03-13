@@ -20,6 +20,7 @@ const authSlice = createSlice({
         confirmPassword: action.payload.confirmPassword,
         enrolledCourses: [],
         completedCourses: [],
+        role: "user",
       };
 
       // We keep users in users array and in localstorage
@@ -81,6 +82,8 @@ const authSlice = createSlice({
         user.name = action.payload.name || user.name;
         user.email = action.payload.email || user.email;
         user.password = action.payload.password || user.password;
+        user.role = action.payload.role || user.role;
+
         localStorage.setItem("users", JSON.stringify(state.users)); // Save update
       }
     },

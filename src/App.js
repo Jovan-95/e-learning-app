@@ -5,6 +5,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import CourseDetails from "./pages/CourseDetails";
 import { useDispatch } from "react-redux";
 import { addLoginUserObj } from "./redux/authSlice";
+import AdminRoute from "./components/AdminRoute";
 
 const Home = lazy(() => import("./pages/Home"));
 // const CourseDetails = lazy(() => import("./pages/CourseDetails"));
@@ -53,7 +54,9 @@ function App() {
               path="userDashboard"
               element={
                 <PrivateRoute>
-                  <UserDashboard />
+                  <AdminRoute>
+                    <UserDashboard />
+                  </AdminRoute>
                 </PrivateRoute>
               }
             />

@@ -1,0 +1,29 @@
+.select-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+select {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+select:focus {
+  outline: none;
+  border-color: #2980b9;
+  box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+
+option {
+  font-size: 16px;
+}
