@@ -71,6 +71,14 @@ function About() {
     setIsOpenEditInfoModal((prev) => !prev);
   }
 
+  const getDownloadLink = (courseId) =>
+    `https://example.com/materials/course-${courseId}.pdf`;
+
+  function handleCourseDownload(course) {
+    const fileUrl = getDownloadLink(course.id);
+    window.open(fileUrl, "_blank");
+  }
+
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -109,7 +117,12 @@ function About() {
           <div>
             <h3>Completed courses for this user:</h3>
             {user.completedCourses.map((completedCourse) => (
-              <li key={completedCourse.id}>{completedCourse.title}</li>
+              <li key={completedCourse.id}>
+                {completedCourse.title}{" "}
+                <button onClick={() => handleCourseDownload(completedCourse)}>
+                  Download completed course
+                </button>
+              </li>
             ))}
           </div>
         </div>
